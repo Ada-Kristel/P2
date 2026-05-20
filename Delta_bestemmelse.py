@@ -20,10 +20,6 @@ enc = header.encoding[0]
 kx = enc.encodedSpace.matrixSize.x # Definerer størrelsen af matricen i kx retning - 352
 ky_size = enc.encodedSpace.matrixSize.y # Definerer størrelsen af matricen i ky retning - 202
 
-# Antallet af coils
-# Kan også aflæses i xml
-# ncoils = 16 # Udkommenteret da en matrice over dataen ville være 16 x 352 x 202 (how tf er en matrix 3d)
-
 # Vælger 1 coil fremfor alle 16, så vi kan få en nx x ny matrix
 # Indekset bestemmer hvilken af de 16 coils (0-15) vi vælger
 coil_number = 0
@@ -40,7 +36,7 @@ def fillkspace():
     """
     Der bliver kørt igennem alle acquisitions (samples)
     og fylder række for række for den valgte slice og den valgte coil
-    Hvis den slice vi kigger på ikke er vores valgte slice, siger den continue (går videre til næste iteration)
+    Hvis den slice vi kigger på ikke er vores valgte slice, går den videre til næste iteration
     """
     for i in range(dset.number_of_acquisitions()):
         acq = dset.read_acquisition(i)  # Vælger hvilken acquisition vi kigger på
