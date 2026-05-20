@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 
 """
 Den her fil printer rekonstruktionerne med ekstra støj.
-Støj (standardafvigelse) kan ændres på linje 92.
-For at skifte mellem zerofill og least squares, skal udkommenteringen byttes om ved linje 272-273.
+Støj (standardafvigelse) kan ændres på linje 88.
+For at skifte mellem zerofill og least squares, skal udkommenteringen byttes om ved linje 268-269.
 """
 
 # Finder filen
@@ -20,10 +20,6 @@ enc = header.encoding[0]
 
 kx = enc.encodedSpace.matrixSize.x # Definerer størrelsen af matricen i kx retning - 352
 ky_size = enc.encodedSpace.matrixSize.y # Definerer størrelsen af matricen i ky retning - 202
-
-# Antallet af coils
-# Kan også aflæses i xml
-# ncoils = 16 # Udkommenteret da en matrice over dataen ville være 16 x 352 x 202 (how tf er en matrix 3d)
 
 # Vælger 1 coil fremfor alle 16, så vi kan få en nx x ny matrix
 # Indekset bestemmer hvilken af de 16 coils (0-15) vi vælger
