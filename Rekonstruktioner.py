@@ -4,9 +4,10 @@ import matplotlib.pyplot as plt
 
 """
 Den her fil printer rekonstruktionerne uden ekstra støj. 
-For at skifte mellem zerofill og least squares, skal udkommenteringen byttes om ved linje 253-254.
-Delta-værdien for least squares kan ændres på linje 160.
-Det fulde k-space eller det fulde billede kan også printes separat ved at fjerne udkommentering på linje 257-260.
+For at skifte mellem zerofill og least squares, skal udkommenteringen byttes om ved linje 254-255.
+Delta-værdien for least squares kan ændres på linje 161.
+Det fulde k-space eller det fulde billede kan også printes separat ved at fjerne udkommentering på linje 258-261.
+For at ændre på at sample ude fra og sample inde fra, skal der ændres på linje 96 og 101.
 """
 
 # Finder filen
@@ -92,12 +93,12 @@ def samplingmask(ky_size, center_fraction = 0.30):
     param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
     return: en maske til at undersample datasættet
     """
-    mask = np.zeros(ky_size, dtype=bool)
+    mask = np.zeros(ky_size, dtype=bool) # ændr fra zeros til ones for at sample ude fra
 
     # Beregner start og slut indeks for centrum af k-space
     center_start = ky_size // 2 - int(ky_size * center_fraction) // 2
     center_end = ky_size // 2 + int(ky_size * center_fraction) // 2
-    mask[center_start:center_end] = True
+    mask[center_start:center_end] = True # ændr fra True til False for at sample ude fra
 
     # Beregner hvor mange linjer vi vil sample udenfor centrum
     n_center = mask.sum()
