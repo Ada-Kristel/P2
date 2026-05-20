@@ -104,18 +104,6 @@ def undersampling(kspace):
     kspace_undersampled[~mask, :] = 0
     return kspace_undersampled
 
-def MeanSquareError(image_ref, image_recon):
-    """
-    param image_ref: Reference image ("perfekte" billede)
-    param image_recon: Reconstructed image
-    return: Returnerer den absolutte fejl mellem det "perfekte" billede og rekonstruktionen
-    men med en skalering på den højeste reference værdi, da det er meget høje værdier
-    """
-    ref = np.abs(image_ref)
-    recon = np.abs(image_recon)
-
-    return np.mean(np.square(ref - recon))
-
 def RelativeMeanSquareError(image_ref, image_recon):
     """
     param image_ref: Reference image ("perfekte" billede)
