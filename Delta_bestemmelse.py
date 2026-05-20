@@ -53,8 +53,8 @@ def fillkspace():
 
         """
         data svarer til acquisition data i vores acq array, som indeholder alt dataet for hver sample
-        # hver acquisition har coil number og tilsvarende samples.
-        # vi sætter coil number til en specifik værdi og får dermed kun vores samples på linjen.
+        hver acquisition har coil number og tilsvarende samples.
+        vi sætter coil number til en specifik værdi og får dermed kun vores samples på linjen.
         """
         line = acq.data[coil_number, :]
 
@@ -83,9 +83,9 @@ image = transform(fillkspace())
 
 def samplingmask(ky_size, center_fraction = 0.30):
     """
-    :param ky_size: antal rækker i datasættet
-    :param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
-    :return: en maske til at undersample datasættet
+    param ky_size: antal rækker i datasættet
+    param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
+    return: en maske til at undersample datasættet
     """
     mask = np.zeros(ky_size, dtype=bool)
 
@@ -135,9 +135,9 @@ def Leastsquares(kspace_undersampled, mask_1d, delta=0.01):
 
 def RelativeMeanSquareError(image_ref, image_recon):
     """
-    :param image_ref: Reference image ("perfekte" billede)
-    :param image_recon: Reconstructed image
-    :return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
+    param image_ref: Reference image ("perfekte" billede)
+    param image_recon: Reconstructed image
+    return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
     """
     ref = np.abs(image_ref)
     recon = np.abs(image_recon)
@@ -153,7 +153,7 @@ for delta in delta_values:
     rmse = RelativeMeanSquareError(image, image_recon)
     rmse_values.append(rmse)
 
-# Plot
+# Plotter figuren
 fig, ax = plt.subplots(figsize=(8, 5))
 ax.plot(delta_values, rmse_values, color='steelblue', linewidth=2)
 ax.set_xscale('log')
