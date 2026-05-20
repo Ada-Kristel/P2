@@ -157,8 +157,8 @@ def Leastsquares(kspace_undersampled, mask_1d, delta):
 
 def simulation():
     """
-
-    :return:
+    Simuleringen kører igennem mange samplingsprocenter og beregner RMSE for hver af dem.
+    Det plotter den, samt markerer de brugte delta-værdier.
     """
     deltas = [0.001, 0.25, 1]
     colors = ['royalblue', 'hotpink', 'lime']
