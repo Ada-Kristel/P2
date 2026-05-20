@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 """
 Den her fil printer rekonstruktionerne med ekstra støj.
 Støj (standardafvigelse) kan ændres på linje 88.
-For at skifte mellem zerofill og least squares, skal udkommenteringen byttes om ved linje 268-269.
+For at skifte mellem zerofill og least squares, skal udkommenteringen byttes om ved linje 267-268.
 """
 
 # Finder filen
@@ -101,7 +101,6 @@ def samplingmask(ky_size, center_fraction = 0.30):
     center_end = ky_size // 2 + int(ky_size * center_fraction) // 2
     mask[center_start:center_end] = True
 
-    # Beregner hvor mange linjer vi vil sample udenfor centrum
     n_center = mask.sum()
     print(f'Rækker beholdt: {n_center: .0f}')  # printer hvor mange rækker vi beholder ud af de 202
 
@@ -203,7 +202,7 @@ def zerofillprint(kspace_undersampled,image_undersampled):
     ax0.axis('off')
     ax1.axis('off')
 
-    # bygger tabellen (kan eventuelt tilføje en centrum procent til for random sampling i nedenstående)
+    # bygger tabellen
     table_data = [
         ["Rows kept", f"{n_kept} / {ky_size}"],
         ["Percentage kept", f"{n_percentile:.2f}%"],
