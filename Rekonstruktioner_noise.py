@@ -37,7 +37,7 @@ def fillkspace():
     """
     Der bliver kørt igennem alle acquisitions (samples)
     og fylder række for række for den valgte slice og den valgte coil
-    Hvis den slice vi kigger på ikke er vores valgte slice, siger den continue (går videre til næste iteration)
+    Hvis den slice vi kigger på ikke er vores valgte slice, går den videre til næste iteration
     """
     for i in range(dset.number_of_acquisitions()):
         acq = dset.read_acquisition(i)  # Vælger hvilken acquisition vi kigger på
