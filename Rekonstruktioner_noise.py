@@ -111,7 +111,7 @@ def samplingmask(ky_size, center_fraction = 0.30):
 mask, n_center = samplingmask(ky_size)
 
 def undersampling(kspace):
-    mask, _ = samplingmask(ky_size) # ændrer her mellem almindelig eller random maske
+    mask, _ = samplingmask(ky_size)
     kspace_undersampled = kspace.copy()  # undersampler en kopi af kspace
     kspace_undersampled[~mask, :] = 0
     return kspace_undersampled
