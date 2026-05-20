@@ -22,7 +22,7 @@ def fillkspace():
     """
     Der bliver kørt igennem alle acquisitions (samples)
     og fylder række for række for den valgte slice og den valgte coil
-    Hvis den slice vi kigger på ikke er vores valgte slice, siger den continue (går videre til næste iteration)
+    Hvis den slice vi kigger på ikke er vores valgte slice, går den videre til næste iteration
     """
     kspace = np.zeros((ky_size, kx), dtype=np.complex64)
     for i in range(dset.number_of_acquisitions()):
@@ -42,9 +42,9 @@ def transform(kspace):
 
 def samplingmask(ky_size, center_fraction=0.30):
     """
-    :param ky_size: antal rækker i datasættet
-    :param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
-    :return: en maske til at undersample datasættet
+    param ky_size: antal rækker i datasættet
+    param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
+    return: en maske til at undersample datasættet
     """
     mask = np.zeros(ky_size, dtype=bool)
     cs = ky_size // 2 - int(ky_size * center_fraction) // 2
@@ -75,9 +75,9 @@ def Leastsquares(kspace_undersampled, mask_1d, delta=0.01):
 
 def RelativeMeanSquareError(image_ref, image_recon):
     """
-    :param image_ref: Reference image ("perfekte" billede)
-    :param image_recon: Reconstructed image
-    :return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
+    param image_ref: Reference image ("perfekte" billede)
+    param image_recon: Reconstructed image
+    return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
     """
     ref = np.abs(image_ref)
     recon = np.abs(image_recon)
@@ -138,11 +138,13 @@ for idx, std in enumerate(noise_stds):
     print(f"  [{idx+1:2d}/{len(noise_stds)}]  std={std:.2e}  "
           f"best δ={best_delta:.4f}  RMSE_L2={best_err:.4f}  RMSE_ZF={rmse_zf:.4f}")
 
-
+#Plotter figuren
 fig, ax = plt.subplots(figsize=(8, 5))
 
+#Zerofill graf
 ax.plot(noise_stds, rmse_zerofill,
         color='steelblue', linewidth=2, label='Zerofill')
+#RMSE graf
 ax.plot(noise_stds, rmse_l2_best,
         color='hotpink', linewidth=2, label='L2 (best δ)')
 
