@@ -20,10 +20,6 @@ enc = header.encoding[0]
 kx = enc.encodedSpace.matrixSize.x # Definerer størrelsen af matricen i kx retning - 352
 ky_size = enc.encodedSpace.matrixSize.y # Definerer størrelsen af matricen i ky retning - 202
 
-# Antallet af coils
-# Kan også aflæses i xml
-# ncoils = 16 # Udkommenteret da en matrice over dataen ville være 16 x 352 x 202 (how tf er en matrix 3d)
-
 # Vælger 1 coil fremfor alle 16, så vi kan få en nx x ny matrix
 # Indekset bestemmer hvilken af de 16 coils (0-15) vi vælger
 coil_number = 0
@@ -40,7 +36,7 @@ def fillkspace():
     """
     Der bliver kørt igennem alle acquisitions (samples)
     og fylder række for række for den valgte slice og den valgte coil
-    Hvis den slice vi kigger på ikke er vores valgte slice, siger den continue (går videre til næste iteration)
+    Hvis den slice vi kigger på ikke er vores valgte slice går den videre til næste iteration
     """
     for i in range(dset.number_of_acquisitions()):
         acq = dset.read_acquisition(i)  # Vælger hvilken acquisition vi kigger på
@@ -57,8 +53,8 @@ def fillkspace():
 
         """
         data svarer til acquisition data i vores acq array, som indeholder alt dataet for hver sample
-        # hver acquisition har coil number og tilsvarende samples.
-        # vi sætter coil number til en specifik værdi og får dermed kun vores samples på linjen.
+        hver acquisition har coil number og tilsvarende samples.
+        vi sætter coil number til en specifik værdi og får dermed kun vores samples på linjen.
         """
         line = acq.data[coil_number, :]
 
@@ -85,9 +81,9 @@ def transform(kspace):
 
 def samplingmask(ky_size, center_fraction=0.20):
     """
-        :param ky_size: antal rækker i datasættet
-        :param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
-        :return: en maske til at undersample datasættet
+    param ky_size: antal rækker i datasættet
+    param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
+    return: en maske til at undersample datasættet
     """
     mask = np.zeros(ky_size, dtype=bool) # ændr den fra zeros til ones, hvis vi vil sample ude fra og ind mod centrum
 
@@ -110,10 +106,9 @@ def undersampling(kspace):
 
 def MeanSquareError(image_ref, image_recon):
     """
-
-    :param image_ref: Reference image ("perfekte" billede)
-    :param image_recon: Reconstructed image
-    :return: Returnerer den absolutte fejl mellem det "perfekte" billede og rekonstruktionen
+    param image_ref: Reference image ("perfekte" billede)
+    param image_recon: Reconstructed image
+    return: Returnerer den absolutte fejl mellem det "perfekte" billede og rekonstruktionen
     men med en skalering på den højeste reference værdi, da det er meget høje værdier
     """
     ref = np.abs(image_ref)
@@ -123,10 +118,9 @@ def MeanSquareError(image_ref, image_recon):
 
 def RelativeMeanSquareError(image_ref, image_recon):
     """
-
-    :param image_ref: Reference image ("perfekte" billede)
-    :param image_recon: Reconstructed image
-    :return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
+    param image_ref: Reference image ("perfekte" billede)
+    param image_recon: Reconstructed image
+    return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
     men med en skalering, da det er meget høje værdier
     """
     ref = np.abs(image_ref)
@@ -178,7 +172,7 @@ def simulation():
         percentage = np.zeros(simuleringer)
 
         for i, cf in enumerate(center_fractions):
-            mask, _ = samplingmask(ky_size, center_fraction=cf)  # swap for samplingmask_random if preferred
+            mask, _ = samplingmask(ky_size, center_fraction=cf)
             kspace_undersampled = kspace.copy()
             kspace_undersampled[~mask, :] = 0
 
