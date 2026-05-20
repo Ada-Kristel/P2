@@ -22,9 +22,9 @@ enc = header.encoding[0]
 kx = enc.encodedSpace.matrixSize.x # Definerer størrelsen af matricen i kx retning - 352
 ky_size = enc.encodedSpace.matrixSize.y # Definerer størrelsen af matricen i ky retning - 202
 
-# Antallet af coils
-# Kan også aflæses i xml
-# ncoils = 16 # Udkommenteret da en matrice over dataen ville være 16 x 352 x 202 (how tf er en matrix 3d)
+
+
+
 
 # Vælger 1 coil fremfor alle 16, så vi kan få en nx x ny matrix
 # Indekset bestemmer hvilken af de 16 coils (0-15) vi vælger
@@ -35,14 +35,14 @@ coil_number = 0
 slice_number = 10
 
 # Generer en tom 2d matrix af størrelsen ny x nx.
-# np.complex64 sørger for at hver indgang i matricen ligner og agerer som et komplekst tal
+# np.complex64 sørger for, at hver indgang i matricen ligner og agerer som et komplekst tal
 kspace = np.zeros((ky_size,kx),dtype=np.complex64)
 
 def fillkspace():
     """
     Der bliver kørt igennem alle acquisitions (samples)
     og fylder række for række for den valgte slice og den valgte coil
-    Hvis den slice vi kigger på ikke er vores valgte slice, siger den continue (går videre til næste iteration)
+    Hvis den slice vi kigger på ikke er vores valgte slice går den videre til næste iteration
     """
     for i in range(dset.number_of_acquisitions()):
         acq = dset.read_acquisition(i)  # Vælger hvilken acquisition vi kigger på
@@ -59,8 +59,8 @@ def fillkspace():
 
         """
         data svarer til acquisition data i vores acq array, som indeholder alt dataet for hver sample
-        # hver acquisition har coil number og tilsvarende samples.
-        # vi sætter coil number til en specifik værdi og får dermed kun vores samples på linjen.
+        hver acquisition har coil number og tilsvarende samples.
+        vi sætter coil number til en specifik værdi og får dermed kun vores samples på linjen.
         """
         line = acq.data[coil_number, :]
 
@@ -88,9 +88,9 @@ image = transform(fillkspace())
 
 def samplingmask(ky_size, center_fraction = 0.30):
     """
-    :param ky_size: antal rækker i datasættet
-    :param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
-    :return: en maske til at undersample datasættet
+    param ky_size: antal rækker i datasættet
+    param center_fraction: bestemmer hvor stor en del af rækkerne, som centrum udgør
+    return: en maske til at undersample datasættet
     """
     mask = np.zeros(ky_size, dtype=bool)
 
@@ -109,7 +109,7 @@ def samplingmask(ky_size, center_fraction = 0.30):
 mask, n_center = samplingmask(ky_size)
 
 def undersampling(kspace):
-    mask, _ = samplingmask(ky_size) # ændr her mellem almindelig eller random maske
+    mask, _ = samplingmask(ky_size)
     kspace_undersampled = kspace.copy()  # undersampler en kopi af kspace
     kspace_undersampled[~mask, :] = 0
     return kspace_undersampled
@@ -123,7 +123,7 @@ def Leastsquares(kspace_undersampled, mask_1d, delta):
 
     Parameters:
         kspace_undersampled : undersampled k-space
-        mask_1d             : 1d maske, som tage masken pr. række
+        mask_1d             : 1d maske, som tager masken pr. række
         delta               : regulariseringsstyrken
 
     Returns:
@@ -139,9 +139,9 @@ def Leastsquares(kspace_undersampled, mask_1d, delta):
 
 def RelativeMeanSquareError(image_ref, image_recon):
     """
-    :param image_ref: Reference image ("perfekte" billede)
-    :param image_recon: Reconstructed image
-    :return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
+    param image_ref: Reference image ("perfekte" billede)
+    param image_recon: Reconstructed image
+    return: Returnerer de relative fejl mellem det "perfekte" billede og rekonstruktionen
     """
     ref = np.abs(image_ref)
     recon = np.abs(image_recon)
@@ -175,7 +175,7 @@ def zerofillprint(kspace_undersampled,image_undersampled):
 
     ax0 = fig.add_subplot(gs[0, 0])
     ax1 = fig.add_subplot(gs[0, 1])
-    ax_table = fig.add_subplot(gs[1, :])  # spans both columns
+    ax_table = fig.add_subplot(gs[1, :])
 
     # plotter kspace
     ax0.imshow(np.log(np.abs(kspace_undersampled) + 1E-09), cmap='gray', vmin=vmin_k, vmax=vmax_k)
@@ -188,7 +188,7 @@ def zerofillprint(kspace_undersampled,image_undersampled):
     ax0.axis('off')
     ax1.axis('off')
 
-    # bygger tabellen (kan eventuelt tilføje en centrum procent til for random sampling i nedenstående)
+    # bygger tabellen
     table_data = [
         ["Rows kept", f"{n_kept} / {ky_size}"],
         ["Percentage kept", f"{n_percentile:.2f}%"],
@@ -217,7 +217,7 @@ def leastsquaresquaresprint(kspace_undersampled, image_l2):
 
     ax0 = fig.add_subplot(gs[0, 0])
     ax1 = fig.add_subplot(gs[0, 1])
-    ax_table = fig.add_subplot(gs[1, :])  # spans both columns
+    ax_table = fig.add_subplot(gs[1, :])
 
     # plotter kspace
     ax0.imshow(np.log(np.abs(kspace_undersampled) + 1E-09), cmap='gray', vmin=vmin_k, vmax=vmax_k)
