@@ -126,16 +126,16 @@ image = transform(fillkspace())
 
 def simulation():
     """
-    Vi laver en simulering af hvordan MSE afhænger af samplingsprocenten.
-    MSE ad y-aksen og samplingsprocent ad x-aksen.
+    Vi laver en simulering af hvordan RMSE afhænger af samplingsprocenten.
+    RMSE ad y-aksen og samplingsprocent ad x-aksen.
     """
     simuleringer = 1000  # Antal af simuleringer (forskellige center_fraction værdier)
     center_fractions = np.linspace(0, 1, simuleringer)  # Laver en array over alle center_fraction værdierne
-    rmse = np.zeros(simuleringer)  # Laver en tom array til at gemme MSE værdierne
+    rmse = np.zeros(simuleringer)  # Laver en tom array til at gemme RMSE værdierne
     percentage = np.zeros(simuleringer)  # Laver en tom array til at gemme samplingsprocenterne
     """
-    Forløkken tager de forskellige center_fraction værdier og beregner MSE og samplingsprocenten for hver værdi.
-    De værdier bliver så sat ind i MSE og percentage arrays på den i'ne plads. 
+    Forløkken tager de forskellige center_fraction værdier og beregner RMSE og samplingsprocenten for hver værdi.
+    De værdier bliver så sat ind i RMSE og percentage arrays på den i'ne plads. 
     """
     for i, cf in enumerate(center_fractions):
         mask = samplingmask(ky_size, center_fraction=cf)
@@ -148,7 +148,7 @@ def simulation():
 
 rmse, percentage = simulation() # udpakker værdier fra funktionen
 
-# plotter forholdet mellem MSE og samplingsprocent
+# plotter forholdet mellem RMSE og samplingsprocent
 plt.figure(figsize = (8,5))
 plt.plot(percentage,rmse)
 plt.ylabel('Relative Mean Squared Error')
